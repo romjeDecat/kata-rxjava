@@ -1,4 +1,5 @@
 package katas.rxjava3;
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
@@ -6,6 +7,7 @@ import io.reactivex.rxjava3.core.Single;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 class CountriesServiceSolved implements CountriesService {
@@ -34,13 +36,13 @@ class CountriesServiceSolved implements CountriesService {
     public Observable<Country> listOnly3rdAnd4thCountry(List<Country> countries) {
         AtomicInteger counter = new AtomicInteger(0);
         return Observable.fromIterable(countries)
-                .doOnEach(countryNotification -> counter.getAndIncrement()).filter((country) ->counter.get()!=3 && counter.get()!=4 );
+                .doOnEach(countryNotification -> counter.getAndIncrement()).filter((country) ->counter.get()==3 || counter.get()==4 );
     }
 
     @Override
     public Single<Boolean> isAllCountriesPopulationMoreThanOneMillion(List<Country> countries) {
          return Observable.fromIterable(countries)
-                 .takeUntil(country -> country.population<1000000)
+                 .filter(country -> country.population<1000000)
                  .isEmpty();
     }
 
@@ -52,12 +54,12 @@ class CountriesServiceSolved implements CountriesService {
 
     @Override
     public Observable<Country> listPopulationMoreThanOneMillionWithTimeoutFallbackToEmpty(final FutureTask<List<Country>> countriesFromNetwork) {
-        return null; // put your solution here
+      return null;
     }
 
     @Override
     public Observable<String> getCurrencyUsdIfNotFound(String countryName, List<Country> countries) {
-        return null; // put your solution here
+        return null;
     }
 
     @Override
@@ -71,7 +73,8 @@ class CountriesServiceSolved implements CountriesService {
 
     @Override
     public Single<Map<String, Long>> mapCountriesToNamePopulation(List<Country> countries) {
-        return null; // put your solution here
+        return Observable.fromIterable(countries).map(country ->  Map.entry(country.name,country.population))
+                .toMap(Map.Entry::getKey,Map.Entry::getValue);
     }
 
     @Override
