@@ -12,42 +12,36 @@ class CountriesServiceSolved implements CountriesService {
 
     @Override
     public Single<String> countryNameInCapitals(Country country) {
-         return Single.just(country.getName()).map(s -> s.toUpperCase());
+         return null;
     }
 
     public Single<Integer> countCountries(List<Country> countries) {
 
-        return Single.just(countries.size());
+        return null;
     }
 
     public Observable<Long> listPopulationOfEachCountry(List<Country> countries) {
-        return Observable.fromIterable(countries).map(country -> country.getPopulation());
+        return null;
     }
 
     @Override
     public Observable<String> listNameOfEachCountry(List<Country> countries) {
-
-        return Observable.fromIterable(countries).map(c -> c.getName());
+        return null;
     }
 
     @Override
     public Observable<Country> listOnly3rdAnd4thCountry(List<Country> countries) {
-        AtomicInteger counter = new AtomicInteger(0);
-        return Observable.fromIterable(countries)
-                .doOnEach(countryNotification -> counter.getAndIncrement()).filter((country) ->counter.get()!=3 && counter.get()!=4 );
+        return null;
     }
 
     @Override
     public Single<Boolean> isAllCountriesPopulationMoreThanOneMillion(List<Country> countries) {
-         return Observable.fromIterable(countries)
-                 .takeUntil(country -> country.population<1000000)
-                 .isEmpty();
+        return null;
     }
 
     @Override
     public Observable<Country> listPopulationMoreThanOneMillion(List<Country> countries) {
-        return Observable.fromIterable(countries)
-                .filter(country -> country.population>1000000);
+        return null;
     }
 
     @Override
@@ -62,11 +56,7 @@ class CountriesServiceSolved implements CountriesService {
 
     @Override
     public Observable<Long> sumPopulationOfCountries(List<Country> countries) {
-        AtomicInteger total  = new AtomicInteger(0);
-        Maybe<Long> computedPopulation = Observable.fromIterable(countries)
-                .map(country -> country.population)
-                .reduce((p1,p2) -> p1+p2 );
-        return  computedPopulation.toObservable();
+        return null;
     }
 
     @Override
@@ -77,14 +67,12 @@ class CountriesServiceSolved implements CountriesService {
     @Override
     public Observable<Long> sumPopulationOfCountries(Observable<Country> countryObservable1,
                                                      Observable<Country> countryObservable2) {
-        return Observable.merge(List.of(countryObservable1,countryObservable2))
-                .map(country -> country.getPopulation())
-                .reduce((aLong, aLong2) -> aLong+aLong2).toObservable();
+        return null;
     }
 
     @Override
     public Single<Boolean> areEmittingSameSequences(Observable<Country> countryObservable1,
                                                     Observable<Country> countryObservable2) {
-        return Observable.sequenceEqual(countryObservable1,countryObservable2);
+        return null;
     }
 }
